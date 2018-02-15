@@ -1,20 +1,246 @@
-/*浏览器初始化*/
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td { margin:0; padding:0; }
-body { background:#fff; color:#555; font-size:14px; font-family: Verdana, Arial, Helvetica, sans-serif; }
-td,th,caption { font-size:14px; }
-h1, h2, h3, h4, h5, h6 { font-weight:normal; font-size:100%; }
-address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:normal;}
-a { color:#555; text-decoration:none; }
-a:hover {text-decoration:none;  }
-img { border:none; }
-ol,ul,li { list-style:none; }
-input, textarea, select, button { font:14px Verdana,Helvetica,Arial,sans-serif; }
-table { border-collapse:collapse; }
-html {overflow-y: scroll;}
-.clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
-.clearfix { *zoom:1; } 
+/**
+ * fullPage 2.4.6
+ * https://github.com/alvarotrigo/fullPage.js
+ * MIT licensed
+ *
+ * Copyright (C) 2013 alvarotrigo.com - A project by Alvaro Trigo
+ */
+
+/*fullPage css部分*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+	color: #222;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+	font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+a{
+	text-decoration: none;
+}
 
 
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow:hidden;
+
+    /*Avoid flicker on slides transitions for mobile phones #336 */
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+#superContainer {
+    height: 100%;
+    position: relative;
+
+    /* Touch detection for Windows 8 */
+    -ms-touch-action: none;
+
+    /* IE 11 on Windows Phone 8.1*/
+    touch-action: none;
+}
+.fp-section {
+    position: relative;
+    -webkit-box-sizing: border-box; /* Safari<=5 Android<=3 */
+    -moz-box-sizing: border-box; /* <=28 */
+    box-sizing: border-box;
+}
+.fp-slide {
+    float: left;
+}
+.fp-slide, .fp-slidesContainer {
+    height: 100%;
+    display: block;
+}
+.fp-slides {
+    z-index:1;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    -webkit-transition: all 0.3s ease-out; /* Safari<=6 Android<=4.3 */
+    transition: all 0.3s ease-out;
+}
+.fp-section.fp-table, .fp-slide.fp-table {
+    display: table;
+    table-layout:fixed;
+    width: 100%;
+}
+.fp-tableCell {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+}
+.fp-slidesContainer {
+    float: left;
+    position: relative;
+}
+.fp-controlArrow {
+    position: absolute;
+    z-index: 4;
+    top: 50%;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    margin-top: -38px;
+}
+.fp-controlArrow.fp-prev {
+    left: 15px;
+    width: 0;
+    border-width: 38.5px 34px 38.5px 0;
+    border-color: transparent #fff transparent transparent;
+}
+.fp-controlArrow.fp-next {
+    right: 15px;
+    border-width: 38.5px 0 38.5px 34px;
+    border-color: transparent transparent transparent #fff;
+}
+.fp-scrollable {
+    overflow: scroll;
+
+}
+.fp-notransition {
+    -webkit-transition: none !important;
+    transition: none !important;
+}
+#fp-nav {
+    position: fixed;
+    z-index: 100;
+    margin-top: -32px;
+    top: 50%;
+    opacity: 1;
+}
+#fp-nav.right {
+    right: 17px;
+}
+#fp-nav.left {
+    left: 17px;
+}
+.fp-slidesNav{
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    opacity: 1;
+}
+.fp-slidesNav.bottom {
+    bottom: 17px;
+}
+.fp-slidesNav.top {
+    top: 17px;
+}
+#fp-nav ul,
+.fp-slidesNav ul {
+  margin: 0;
+  padding: 0;
+}
+#fp-nav ul li,
+.fp-slidesNav ul li {
+    display: block;
+    width: 14px;
+    height: 13px;
+    margin: 7px;
+    position:relative;
+}
+.fp-slidesNav ul li {
+    display: inline-block;
+}
+#fp-nav ul li a,
+.fp-slidesNav ul li a {
+    display: block;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    text-decoration: none;
+}
+#fp-nav ul li a.active span,
+.fp-slidesNav ul li a.active span {
+    background: #333;
+}
+#fp-nav ul li a span,
+.fp-slidesNav ul li a span {
+    top: 2px;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    border: 1px solid #000;
+    background: rgba(0, 0, 0, 0);
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+}
+#fp-nav ul li .fp-tooltip {
+    position: absolute;
+    top: -2px;
+    color: #fff;
+    font-size: 14px;
+    font-family: arial, helvetica, sans-serif;
+    white-space: nowrap;
+    max-width: 220px;
+    overflow: hidden;
+    display: block;
+    opacity: 0;
+    width: 0;
+}
+#fp-nav ul li:hover .fp-tooltip {
+    -webkit-transition: opacity 0.2s ease-in;
+    transition: opacity 0.2s ease-in;
+    width: auto;
+    opacity: 1;
+}
+#fp-nav ul li .fp-tooltip.right {
+    right: 20px;
+}
+#fp-nav ul li .fp-tooltip.left {
+    left: 20px;
+}
+
+
+
+
+
+/*更改css*/
 .aa{
 	width: 100%;
 	height: 100%;
@@ -26,21 +252,28 @@ html {overflow-y: scroll;}
 from {background:#22C3AA;}
 to {background:#6EE95E;}
 }
+a{
+	color: #008A75;
+	cursor: pointer;
+	transition: color 0.4s;
+}
+a:hover{
+	color: #99FF33;
+}
 /*移入导航小点*/
 .navTitle-box1{
 	width: 40px;
-	height: 150px;
 	position: absolute;
 	top:50%;
 	left: 45px;
-	margin-top: -67.5px;
+	margin-top: -45px;
+	/* border: 1px solid #fff; */
 }
 .navTitle{
 	display: block;
 	width: 30px;
 	height: 20px;
 	font-size: 13px;
-	color: white;
 	/*opacity: 0;*/
 }
 .navTitle i{
@@ -49,20 +282,19 @@ to {background:#6EE95E;}
 	height: 20px;
 	font-style: normal;
 	display: none;
+	color: white;
 }
 /*正文布局*/
 .conBox{
-	width: 1200px;
+	width: 80%;
 	height: 100%;
-	/*border: 1px solid white;
-	background: pink;*/
 	margin: auto;
 	display: flex;/*弹性垂直居中*/
 	align-items:center;
 }
 .con1{
-	width: 1200px;
-	height: 460px;
+	width: 100%;
+	/* height: 460px; */
 }
 .face{
 	width: 180px;
@@ -81,47 +313,31 @@ to {background:#6EE95E;}
 	font-size: 60px;
 	font-weight: bold;
 	color: #EEF3F0;
-	margin-top: 5px;
+	margin-top: 15px;
 	text-shadow: 1px 2px #22c3aa, 2px 4px #aee2d9;
 }
 .con1 p{
-	width: 500px;
-	height: 40px;
+	height: 50px;
 	color: #aee2d9;
 	font-size: 20px;
-	margin: auto;
 	text-align: center;
-	margin-top: 20px;
+	line-height: 50px;
 }
 .con1 h2{
-	width: 300px;
-	height: 30px;
+	height: 35px;
+	line-height: 35px;
 	text-align: center;
-	margin:auto;
-	margin-top: 5px;
 	font-size: 22px;
 	color: #EEF3F0;
 	font-weight: bold;
 }
-a{
-	color: #008A75;
-	transition: color 0.4s;
-	-webkit-transition: color 0.4s;
-}
-a:hover{
-	color: #99FF33;
-}
 .con1 h3{
 	color: #008A75;
 	font-size: 19px;
-	width: 200px;
 	height: 30px;
 	text-align: center;
-	margin: auto;
-	cursor: pointer;
-	letter-spacing: -2px;
 	margin-top: 15px;
-	-webkit-transition: color 0.4s;
+	transition: color 0.4s;
 }
 .con1 h3:hover{
 	color: #99FF33;
@@ -129,43 +345,49 @@ a:hover{
 
 .con2{
 	width: 100%;
-	height: 370px;
 }
 .con2 h1,.con3 h1,.con4 h1,.con5 h1,.con6 h1,.con7 h1{
-	width: 290px;
-	height: 100px;
 	font-size:60px;
 	text-align: center;
-	margin: auto;
 	color: #EEF3F0;
 	font-weight: bold;
+	margin-bottom: 40px;
 	text-shadow: 1px 2px #22c3aa, 2px 4px #aee2d9;
 }
 .tag{
-	width:700px;
-	height: ;
 	margin: auto;
 	text-align: center;
 	color: #aee2d9;
-	margin: 15px auto;
+	margin: 15px 0;
 }
 .tag span{
 	display: inline-block;
-	padding: 2px 8px;
+	padding: 4px 8px;
 	font-size: 16px;
-	background:  #096254;
+	background:  #07473D;
 	border-radius: 3px;
-	
+	color: #E4E1E1;	
+	cursor: pointer;
 }
-.con3{
-	width: 100%;
-	height:300px;
+.opa1{
+	opacity: 0.4;
+}
+.opa2{
+	opacity: 0.7;
+}
+.opa4{
+	opacity: 0.9;
+}
+.opa3{
+	opacity: 0.8;
 }
 
+
+.con3{
+	width: 100%;
+}
 .con3 h2,.con4 h2,.con5 h2,.con6 h2,.con7 h2{
-	width: 600px;
 	text-align: center;
-	margin: auto;
 	font-size: 25px;
 	color:  #EEF3F0;
 	font-weight: bold;
@@ -173,9 +395,7 @@ a:hover{
 	line-height: 35px;
 }
 .con3 p,.con4 p,.con5 p,.con6 p,.con7 p{
-	width: 500px;
 	text-align: center;
-	margin: auto;
 	color: #aee2d9;
 	font-size: 19px;
 	height: 35px;
@@ -183,22 +403,16 @@ a:hover{
 }
 .con4{
 	width: 100%;
-	height:500px;
-	/*border: 1px solid #ccc;*/
 }
 .con5{
 	width: 100%;
-	height:300px;
-	/*border: 1px solid #ccc;*/
 }
 .con6{
 	width: 100%;
-	height:350px;
-	/*border: 1px solid #ccc;*/
 }
 .h2 a{
 	color: #99FF33;
-	-webkit-transition: color 0.4s;
+	transition: color 0.4s;
 }
 .h2 a:hover{
 	color: #008A75;
@@ -209,13 +423,11 @@ a:hover{
 	text-align: center;
 	margin: auto;
 	margin-top: 25px;
-	/*border: 1px solid black;*/
 }
 .link span{
 	display: inline-block;
 	width:28px;
 	height: 28px;
-	/*border: 5px solid #008a75;*/
 	padding: 6px;
 	border-radius: 20px;
 	cursor: pointer;
@@ -233,10 +445,7 @@ a:hover{
 	width: 100%;
 	height: 100%;
 }
-.con7{
-	width: 100%;
-	height:350px;
-}
+
 
 
 
